@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IXI:XI | A Table That Happens</title>
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="https://uploads.onecompiler.io/44apkjp8s/44apkn28k/Circolo%20Gradient%20Icon@2x.png">
+    <link rel="apple-touch-icon" href="https://uploads.onecompiler.io/44apkjp8s/44apkn28k/Circolo%20Gradient%20Icon@2x.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- BONE & QUIET LUXURY AESTHETIC --- */
+        :root {
+            --bg-color: #F9F8F6; 
+            --text-color: #222222; 
+            --accent-color: #666666;
+            --gold-accent: #d4af37;
+            --border-color: rgba(0, 0, 0, 0.1); 
+            --font-serif: 'Cormorant Garamond', serif; 
+            --font-sans: 'Ubuntu', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-sans);
+            font-weight: 300;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes subtleZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .fade-in {
+            animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            opacity: 0;
+        }
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        .delay-3 { animation-delay: 0.9s; }
+        .delay-4 { animation-delay: 1.2s; }
+
+        /* --- INITIAL FULL SCREEN HERO --- */
+        .main-hero {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Ocupa toda la pantalla al inicio */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://cdn.prod.website-files.com/67ea12a6cb5c87586b4cbec0/698f5c42796fb911ebe46cb7_Create2.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            /* Animación de zoom súper sutil para dar vida */
+            animation: subtleZoom 20s ease-out forwards;
+        }
+
+        .hero-gradient-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Capa oscura para asegurar el contraste de la letra blanca */
+            background: linear-gradient(to bottom, rgba(249,248,246,0.3) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 2;
+        }
+
+        .hero-logo-container {
+            position: absolute;
+            top: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .hero-logo {
+            height: 55px; /* Tamaño original ampliado */
+            width: auto;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+            /* Filtro blanco eliminado para mantener el logo original */
+        }
+        
+        .hero-logo:hover { opacity: 1; }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            padding: 0 2rem;
+            max-width: 1200px;
+        }
+
+        /* --- IMPOSING TYPOGRAPHY --- */
+        .ixixi-header {
+            font-family: var(--font-serif); 
+            font-size: 3rem; 
+            font-weight: 500; 
+            letter-spacing: 0.15em;
+            color: #fff;
+            margin: 0 0 1rem 0;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .title-main {
+            font-family: var(--font-serif); 
+            font-size: 8.5rem; 
+            font-weight: 300; 
+            letter-spacing: -0.02em; 
+            line-height: 1.05;
+            margin: 0 0 2rem 0;
+            color: #fff; 
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5); 
+        }
+
+        .time-text {
+            font-family: var(--font-sans); 
+            font-size: 1rem; 
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        /* --- PAGE CONTENT WRAPPERS --- */
+        .page-wrapper {
+            max-width: 1100px; 
+            margin: 0 auto;
+            padding: 8rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--bg-color); /* Retoma el color hueso abajo */
+        }
+
+        .section-block {
+            max-width: 680px; 
+            margin: 0 auto 4rem auto;
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gold-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text {
+            font-family: var(--font-sans); 
+            font-size: 1.6rem; 
+            font-weight: 300;
+            line-height: 1.6;
+            color: #2a2a2a;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text strong {
+            font-weight: 500; 
+            color: #000;
+        }
+
+        /* --- DIVIDER --- */
+        .divider {
+            width: 1px;
+            height: 60px;
+            background-color: var(--border-color);
+            margin: 2rem auto 4rem auto;
+        }
+
+        /* --- SPLIT FORM SECTION --- */
+        .form-split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            width: 100%;
+            margin-top: 2rem;
+            align-items: stretch;
+        }
+
+        .form-image-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .form-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .form-container {
+            width: 100%;
+            text-align: left;
+            background-color: transparent;
+            padding: 1rem 0;
+        }
+
+        /* --- TRUST SPLIT SECTION --- */
+        .trust-split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            width: 100%;
+            margin-top: 2rem;
+            align-items: stretch;
+        }
+
+        .trust-text-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            padding: 1rem 0;
+        }
+
+        .trust-image-side {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .trust-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        /* --- FORM STYLES --- */
+        .form-group {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #888;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .form-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 0;
+            font-family: var(--font-sans); 
+            font-size: 1.4rem; 
+            font-weight: 300;
+            color: var(--text-color);
+            transition: border-color 0.3s;
+            border-radius: 0;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-bottom-color: #111;
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            color: #111;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 40px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            padding: 1.4rem;
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 3rem;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        /* --- FOOTER / SIGNATURE --- */
+        .event-footer {
+            max-width: 680px;
+            margin-top: 6rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+            text-align: center;
+        }
+
+        .signature-title {
+            font-family: var(--font-sans); 
+            font-size: 2.5rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: #111;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .signature-names {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #888;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
+            font-family: var(--font-sans);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            z-index: 10;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-10px) translateX(-50%); }
+            60% { transform: translateY(-5px) translateX(-50%); }
+        }
+
+        @media (max-width: 1024px) {
+            .title-main { font-size: 6.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-logo-container { top: 2rem; }
+            .ixixi-header { font-size: 2.2rem; }
+            .title-main { font-size: 4rem; letter-spacing: -0.02em; }
+            .time-text { font-size: 0.75rem; }
+            
+            .page-wrapper { padding: 4rem 1.5rem; }
+            .section-text { font-size: 1.3rem; }
+            .form-input { font-size: 1.2rem; }
+            
+            /* Responsive Grid */
+            .form-split-container, .trust-split-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .form-image-wrapper, .trust-image-side {
+                height: 400px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- IMPOSING FULL SCREEN HERO -->
+    <header class="main-hero">
+        
+        <!-- Fondo inmersivo -->
+        <div class="hero-bg-layer"></div>
+        <div class="hero-gradient-overlay"></div>
+
+        <!-- Logo Superior (Color Original) -->
+        <div class="hero-logo-container fade-in">
+            <a href="index.html">
+                <img class="hero-logo" src="https://uploads.onecompiler.io/44apkjp8s/44apkn28k/Circolo%20Gradient%20Icon@2x.png" alt="CIRCOLO">
+            </a>
+        </div>
+
+        <!-- Títulos Centrales -->
+        <div class="hero-content">
+            <h2 class="ixixi-header fade-in delay-1">IXI:XI</h2>
+            <h1 class="title-main fade-in delay-2">A Table That Happens.</h1>
+            <p class="time-text fade-in delay-3">Always 11 seats. Always at 6:33 PM.</p>
+        </div>
+
+        <!-- Indicador sutil para bajar -->
+        <div class="scroll-indicator fade-in delay-4">Scroll</div>
+    </header>
+
+    <!-- CONTENIDO INFERIOR (Fondo Hueso Elegante) -->
+    <main class="page-wrapper">
+        
+        <!-- The Principle -->
+        <div class="section-block fade-in">
+            <h2 class="section-title">The Principle</h2>
+            <p class="section-text">
+                <strong>A Ritual of Alignment</strong><br>
+                XI:XI is a private ritual where timing matters more than planning.
+            </p>
+            <p class="section-text" style="color: #666; font-style: italic;">
+                There is no fee. No membership. No transaction.<br>
+                Your presence is already enough.
+            </p>
+        </div>
+
+        <div class="divider fade-in"></div>
+
+        <!-- RSVP Form Split Section -->
+        <div class="form-split-container fade-in">
+            
+            <!-- Image Side -->
+            <div class="form-image-wrapper">
+                <img src="https://cdn.prod.website-files.com/67ea12a6cb5c87586b4cbec0/698f5c511d42d6639427a646_create3.jpg" alt="IXI:XI Ritual" class="form-image">
+            </div>
+
+            <!-- Form Side -->
+            <div class="form-container">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 2.5rem;">Confirm Your Presence</h2>
+                
+                <!-- REEMPLAZA LA ETIQUETA FORM ACTUAL POR ESTA -->
+                <form id="rsvp-form" action="https://formspree.io/f/REEMPLAZA_CON_TU_ID" method="POST">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-input" type="text" id="name" name="name" required placeholder="Jane Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input class="form-input" type="email" id="email" name="email" required placeholder="jane@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Contact Number</label>
+                        <input class="form-input" type="tel" id="phone" name="phone" required placeholder="+1 234 567 8900">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="health">Do you have any medical conditions or accessibility needs we should be aware of?</label>
+                        <textarea class="form-input" id="health" name="health" rows="1" placeholder="None"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="dietary">Special Requests or Dietary Preferences</label>
+                        <textarea class="form-input" id="dietary" name="dietary" rows="1" placeholder="e.g. Vegetarian, no gluten..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="invitation">The Unspoken Invitation</label>
+                        <input class="form-input" type="text" id="invitation" name="invitation" placeholder="Who brought you here?">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="code">The Invitation Code</label>
+                        <input class="form-input" type="text" id="code" name="code" placeholder="Enter code (if applicable)">
+                    </div>
+
+                    <!-- BOTÓN DE ENVÍO -->
+                    <button type="submit" class="submit-btn" id="submit-button">Submit Request</button>
+                    <p id="form-status" style="font-family: var(--font-sans); font-size: 0.8rem; color: #d4af37; margin-top: 1rem; text-align: center; display: none;"></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="divider fade-in" style="margin-top: 6rem;"></div>
+
+        <!-- A Circle That Grows by Trust -->
+        <div class="trust-split-container fade-in">
+            
+            <!-- Text Side -->
+            <div class="trust-text-side">
+                <h2 class="section-title">A Circle That Grows by Trust</h2>
+                <p class="section-text">You cannot ask to join. You are invited.</p>
+                <p class="section-text">One guest may bring another only once and only if they are certain that person belongs.</p>
+                <p class="section-text">An invitation is not a guarantee of return. Seats are taken, never held.</p>
+                <p class="section-text">Those who come once are guests. Those who return become part of the fellowship.</p>
+                <p class="section-text" style="font-style: italic; margin-top: 2rem;">A quiet circle that grows by trust, by recognition, by alignment.</p>
+            </div>
+
+            <!-- Image Side -->
+            <div class="trust-image-side">
+                <img src="https://cdn.prod.website-files.com/67ea12a6cb5c87586b4cbec0/67f929eb38c8cc15a811ea6f_WhatsApp%20Image%202025-04-08%20at%204.39.59%20PM.jpeg" alt="A Circle That Grows by Trust" class="trust-image">
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="event-footer fade-in">
+            <h3 class="signature-title">XI:XI</h3>
+            <span class="signature-names">By Alvaro Daza and Ali Rampurwala</span>
+        </div>
+
+    </main>
+
+    <script>
+        // Efectos de aparición al hacer scroll
+        document.addEventListener("DOMContentLoaded", function() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(el => observer.observe(el));
+        });
+
+        // NUEVO SCRIPT PARA ENVIAR EL FORMULARIO DE FORMA ELEGANTE
+        var form = document.getElementById("rsvp-form");
+        var statusMessage = document.getElementById("form-status");
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var data = new FormData(event.target);
+            var button = document.getElementById("submit-button");
+            
+            button.textContent = "Requesting..."; // Cambia el texto mientras envía
+            button.disabled = true;
+
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    statusMessage.textContent = "Your presence has been requested. We will be in touch.";
+                    statusMessage.style.display = "block";
+                    statusMessage.style.color = "#111"; // Color oscuro elegante
+                    form.reset();
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            statusMessage.textContent = data["errors"].map(error => error["message"]).join(", ");
+                        } else {
+                            statusMessage.textContent = "Oops! There was a problem submitting your request.";
+                        }
+                        statusMessage.style.display = "block";
+                        statusMessage.style.color = "red";
+                    })
+                }
+            }).catch(error => {
+                statusMessage.textContent = "Oops! There was a problem submitting your request.";
+                statusMessage.style.display = "block";
+                statusMessage.style.color = "red";
+            }).finally(() => {
+                button.textContent = "Submit Request"; // Devuelve el botón a la normalidad
+                button.disabled = false;
+            });
+        }
+        
+        if(form) {
+            form.addEventListener("submit", handleSubmit);
+        }
+    </script>
+</body>
+</html>
